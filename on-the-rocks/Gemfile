@@ -36,6 +36,9 @@ group :development do
   gem 'spring'
 end
 
+gem 'net-http'
+gem 'uri'
+gem 'openssl'
 
 gem "jwt", "~>2.1"
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
