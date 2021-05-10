@@ -9,8 +9,7 @@ Rails.application.routes.draw do
       resources :dislikes
       resources :cocktail_favorite_joiners
       resources :cocktail_dislike_joiners
+      post '/login', to: "auth#login"
     end
   end
-
-  post '/login', to: "auth#login"
 end

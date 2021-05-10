@@ -1,5 +1,5 @@
 class User < ApplicationRecord
     has_secure_password
-    belongs_to :favorite
-    belongs_to :dislike
+    has_one :favorite
+    has_one :dislike
 end
