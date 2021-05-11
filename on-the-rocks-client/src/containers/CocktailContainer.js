@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Cocktail from '../components/Cocktail'
+// import Cocktail from '../components/Cocktail'
 
 class CocktailContainer extends Component {
 
@@ -7,6 +7,7 @@ class CocktailContainer extends Component {
     render() {
 
         return (
+<<<<<<< HEAD
             <div className="cocktail-collection">
             {
                 this.props.cocktailArray.map((cocktail) => 
@@ -14,11 +15,18 @@ class CocktailContainer extends Component {
 
             }
     
+=======
+            <div>
+            <h1> Hello World </h1>
+>>>>>>> login-storage
             </div>
         )
     }
 
 
 }
+<<<<<<< HEAD
 
+=======
+>>>>>>> login-storage
 export default CocktailContainer;

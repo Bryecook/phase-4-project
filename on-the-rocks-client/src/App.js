@@ -1,10 +1,15 @@
 import './App.css';
+<<<<<<< HEAD
 import './index.js'
 import CocktailContainer from './containers/CocktailContainer'
+=======
+>>>>>>> login-storage
 
 
 import React from 'react'
+import CocktailContainer from './containers/CocktailContainer'
 import LogIn from './Login.js'
+// import UserCard from './components/UserCard'
 
 import {
   BrowserRouter as Router,
@@ -47,7 +52,7 @@ class App extends React.Component {
 
     fetch('http://localhost:3000/api/v1/login', reqPackage)
       .then(res => res.json())
-      .then(data => console.log(data))
+      .then(data => {localStorage.token = data.token})
   }
 
   render() {
@@ -57,7 +62,16 @@ class App extends React.Component {
           <Route exact path="/" >
             <h1>Log In Here</h1>
             <LogIn handleLogIn={this.handleLogIn} />
+<<<<<<< HEAD
           </Route> 
+=======
+          </Route>
+          <Route exact path='/UserCard'>
+            {/* <UserCard user={this.state.currentUser}/> */}
+          </Route>
+        </Switch>
+        <div className="App">
+>>>>>>> login-storage
 
           <Route exact path="/cocktails">
           <CocktailContainer cocktailArray = {this.state.cocktailArray} />
