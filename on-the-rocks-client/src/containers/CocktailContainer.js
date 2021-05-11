@@ -10,7 +10,7 @@ class CocktailContainer extends Component {
             <div className="cocktail-collection">
             {
                 this.props.cocktailArray.map((cocktail) => 
-            <Cocktail cocktail={cocktail}/>)
+            <Cocktail cocktail={cocktail} like={this.props.like} dislike={this.props.dislike}/>)
 
             }
     

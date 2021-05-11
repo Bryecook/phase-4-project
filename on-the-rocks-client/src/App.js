@@ -1,9 +1,7 @@
 import './App.css';
 import './index.js'
-
-
-import React from 'react'
 import CocktailContainer from './containers/CocktailContainer'
+import React from 'react'
 import LogIn from './Login.js'
 // import UserCard from './components/UserCard'
 
@@ -43,6 +41,7 @@ class App extends React.Component {
         cocktailArray: data
       }))
   }
+
 
 
   handleLogIn = (e) => {
@@ -95,6 +94,14 @@ class App extends React.Component {
     })
   }
 
+  like = (cocktail) => {
+    console.log(cocktail)
+  }
+
+  dislike = (cocktail) => {
+    console.log(cocktail, "dislike function")
+  }
+
   render() {
     return (
       <BrowserRouter>
@@ -110,8 +117,8 @@ class App extends React.Component {
 
         <Switch >
           <Route exact path="/cocktails">
-            <CocktailContainer cocktailArray={this.state.cocktailArray} />
-          </Route>
+          <CocktailContainer cocktailArray = {this.state.cocktailArray} like= {this.like} dislike= {this.dislike}/>
+          </Route> 
         </Switch>
       </BrowserRouter>
     );
