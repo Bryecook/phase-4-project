@@ -8,13 +8,13 @@ class Api::V1::AuthController < ApplicationController
             
             render json: {name: user.name, token: JWT.encode({user_id: user.id}, 'hooplah')}
             
-            else 
-                # send an errord
-                # byebug
-                render json: {error: "Incorrect name or password"}
-            end
+        else 
+            # send an errord
+            # byebug
+            render json: {error: "Incorrect name or password"}
+        end
     end
-    
+
         
     
         # strong params
