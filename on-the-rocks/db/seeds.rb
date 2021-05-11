@@ -36,6 +36,6 @@ array.each do |cocktail|
     Cocktail.create(name: cocktail["strDrink"], ingredients: ingredient_array, instructions: cocktail["strInstructions"], glass: cocktail["strGlass"], picture: cocktail["strDrinkThumb"])
 end
 
-User.create(name: "Jose", age: "26", hometown: "Chicago", picture: "", password_digest: "react")
-User.create(name: "Brian", age: "25", hometown: "Birmingham", picture: "", password_digest: "rails")
+User.create(name: "Jose", age: "26", hometown: "Chicago", picture: "", password: "react")
+User.create(name: "Brian", age: "25", hometown: "Birmingham", picture: "", password: "rails")
 

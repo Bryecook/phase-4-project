@@ -1,7 +1,7 @@
 class Api::V1::AuthController < ApplicationController
 
     def login
-        
+        # byebug
         user = User.find_by(name: auth_param[:name])
         if user && user.authenticate(auth_param[:password])
             #  send back a token
