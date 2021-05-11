@@ -5,14 +5,20 @@ class CocktailContainer extends Component {
 
 
     render() {
-        return (
-            <div>
-            <h1> Hello World </h1>
 
-            <Cocktail />
+        return (
+            <div className="cocktail-collection">
+            {
+                this.props.cocktailArray.map((cocktail) => 
+            <Cocktail cocktail={cocktail}/>)
+
+            }
+    
             </div>
         )
     }
 
 
 }
+
+export default CocktailContainer;
