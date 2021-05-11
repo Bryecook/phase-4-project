@@ -1,6 +1,5 @@
 import './App.css';
 import './index.js'
-import CocktailContainer from './containers/CocktailContainer'
 
 
 import React from 'react'
@@ -13,21 +12,36 @@ import {
   Switch,
   Route,
   Link,
-  BrowserRouter
+  BrowserRouter,
+  Redirect
 } from "react-router-dom";
 
 
 class App extends React.Component {
 
   state = {
-    cocktailArray: []
+    cocktailArray: [],
+    usersArray: [],
+    currentUser: {}
   }
 
   componentDidMount() {
-    fetch('http://localhost:3000/api/v1/cocktails')
-    .then(res => res.json())
-    .then(data => this.setState({
-      cocktailArray:data}))
+    console.log('mounted')
+  }
+
+  getCocktails = () => {
+    fetch('http://localhost:3000/api/v1/cocktails', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': `Bearer ${localStorage.token}`
+      }
+    })
+      .then(res => res.json())
+      .then(data => this.setState({
+        cocktailArray: data
+      }))
   }
 
 
@@ -49,7 +63,36 @@ class App extends React.Component {
 
     fetch('http://localhost:3000/api/v1/login', reqPackage)
       .then(res => res.json())
-      .then(data => {localStorage.token = data.token})
+      .then(data => {
+        localStorage.setItem('token', data.token)
+        this.getUsers()
+        this.setUser(data.name)
+        this.getCocktails()
+        // <Redirect to='/CocktailContainer' />
+      })
+  }
+
+  getUsers = () => {
+    fetch('http://localhost:3000/api/v1/users', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': `Bearer ${localStorage.token}`
+      }
+    })
+      .then(res => res.json())
+      .then(data => this.setState({
+        usersArray: data
+      }))
+      console.log(this.state.usersArray)
+  }
+
+  setUser = (name) => {
+    let user = this.state.usersArray.filter(user => user.name === name  )[0]
+    this.setState({
+      currentUser: user
+    })
   }
 
   render() {
@@ -64,11 +107,11 @@ class App extends React.Component {
             {/* <UserCard user={this.state.currentUser}/> */}
           </Route>
         </Switch>
-        
+
         <Switch >
           <Route exact path="/cocktails">
-          <CocktailContainer cocktailArray = {this.state.cocktailArray} />
-          </Route> 
+            <CocktailContainer cocktailArray={this.state.cocktailArray} />
+          </Route>
         </Switch>
       </BrowserRouter>
     );

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-// import Cocktail from '../components/Cocktail'
+import Cocktail from '../components/Cocktail'
 
 class CocktailContainer extends Component {
 
