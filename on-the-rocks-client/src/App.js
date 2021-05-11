@@ -1,10 +1,7 @@
 import './App.css';
 import './index.js'
 import CocktailContainer from './containers/CocktailContainer'
-
-
 import React from 'react'
-import CocktailContainer from './containers/CocktailContainer'
 import LogIn from './Login.js'
 // import UserCard from './components/UserCard'
 
@@ -20,7 +17,9 @@ import {
 class App extends React.Component {
 
   state = {
-    cocktailArray: []
+    cocktailArray: [],
+    usersArray: [],
+    currentUser: {}
   }
 
   componentDidMount() {
@@ -28,7 +27,9 @@ class App extends React.Component {
     .then(res => res.json())
     .then(data => this.setState({
       cocktailArray:data}))
+
   }
+
 
 
   handleLogIn = (e) => {
@@ -52,6 +53,14 @@ class App extends React.Component {
       .then(data => {localStorage.token = data.token})
   }
 
+  like = (cocktail) => {
+    
+  }
+
+  dislike = (cocktail) => {
+    console.log(cocktail, "dislike function")
+  }
+
   render() {
     return (
       <BrowserRouter>
@@ -67,7 +76,7 @@ class App extends React.Component {
         
         <Switch >
           <Route exact path="/cocktails">
-          <CocktailContainer cocktailArray = {this.state.cocktailArray} />
+          <CocktailContainer cocktailArray = {this.state.cocktailArray} like= {this.like} dislike= {this.dislike}/>
           </Route> 
         </Switch>
       </BrowserRouter>

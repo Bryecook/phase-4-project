@@ -1,5 +1,7 @@
 Cocktail.destroy_all
 User.destroy_all
+Favorite.destroy_all
+Dislike.destroy_all
 
 require 'uri'
 require 'net/http'
@@ -39,3 +41,8 @@ end
 User.create(name: "Jose", age: "26", hometown: "Chicago", picture: "", password: "react")
 User.create(name: "Brian", age: "25", hometown: "Birmingham", picture: "", password: "rails")
 
+Favorite.create(user_id: User.first.id)
+Favorite.create(user_id: User.second.id)
+
+Dislike.create(user_id: User.first.id)
+Dislike.create(user_id: User.second.id)
