@@ -3,7 +3,7 @@ import './index.js'
 import CocktailContainer from './containers/CocktailContainer'
 import React from 'react'
 import LogIn from './Login.js'
-// import UserCard from './components/UserCard'
+import UserCard from './components/UserCard'
 
 import {
   BrowserRouter as Router,
@@ -105,13 +105,23 @@ class App extends React.Component {
   render() {
     return (
       <BrowserRouter>
+      <nav>
+        <ul>
+          <li>
+            {localStorage.token ? <Link to='/Cocktails'>Cocktails</Link> : <Redirect to='/' />}
+          </li>
+          <li>
+            
+          </li>
+        </ul>
+      </nav>
         <Switch>
           <Route exact path="/" >
             <h1>Log In Here</h1>
             <LogIn handleLogIn={this.handleLogIn} />
           </Route>
           <Route exact path='/UserCard'>
-            {/* <UserCard user={this.state.currentUser}/> */}
+            <UserCard user={this.state.currentUser}/>
           </Route>
         </Switch>
 

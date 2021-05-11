@@ -1,14 +1,14 @@
-// import React, { Component } from 'react'
+import React, { Component } from 'react'
 
-// export default class UserCard extends Component {
+export default class UserCard extends Component {
 
-//     render() {
-//         return (
-//             <div classname='card'>
-//                 <h1>hello</h1>
-//             </div>
-//         )
-//     }
-// }
+    render() {
+        return (
+            <div>
+                <h1>{this.props.user.name}</h1>
+            </div>
+        )
+    }
+}
 
 
