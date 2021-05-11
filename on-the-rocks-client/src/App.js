@@ -1,9 +1,6 @@
 import './App.css';
-<<<<<<< HEAD
 import './index.js'
 import CocktailContainer from './containers/CocktailContainer'
-=======
->>>>>>> login-storage
 
 
 import React from 'react'
@@ -62,17 +59,13 @@ class App extends React.Component {
           <Route exact path="/" >
             <h1>Log In Here</h1>
             <LogIn handleLogIn={this.handleLogIn} />
-<<<<<<< HEAD
-          </Route> 
-=======
           </Route>
           <Route exact path='/UserCard'>
             {/* <UserCard user={this.state.currentUser}/> */}
           </Route>
         </Switch>
-        <div className="App">
->>>>>>> login-storage
-
+        
+        <Switch >
           <Route exact path="/cocktails">
           <CocktailContainer cocktailArray = {this.state.cocktailArray} />
           </Route> 
