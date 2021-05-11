@@ -3,12 +3,12 @@ class ApplicationController < ActionController::API
         # byebug
         headers = request.headers['Authorization']
 
-        token = headers.split( " " )[1]
+        token = headers.split(" ")[1]
 
         user_id = JWT.decode(token, 'hooplah')[0]['user_id']
         user = User.find(user_id)
         if user
-            user
+           user # byebug 
         else
             user = nil
         end
