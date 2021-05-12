@@ -21,7 +21,12 @@ class App extends React.Component {
     cocktailArray: [],
     usersArray: [],
     currentUser: {},
-    currentPage: {}
+    currentPage: {},
+    favoritesArray: [],
+    favoriteJoinersArray: [],
+    dislikesArray: [],
+    dislikeJoinersArray: [],
+    currentUserFavorites: []
   }
 
   componentDidMount() {
@@ -43,7 +48,61 @@ class App extends React.Component {
       }))
   }
 
+  getFavorites = () => {
+    fetch('http://localhost:3000/api/v1/favorites', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+      }
+    })
+      .then(res => res.json())
+      .then(data => this.setState({
+        favoritesArray: data
+      }))
+  }
 
+  getDislikes = () => {
+    fetch('http://localhost:3000/api/v1/dislikes', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+      }
+    })
+      .then(res => res.json())
+      .then(data => this.setState({
+        dislikesArray: data
+      }))
+  }
+
+  getDislikeJoiners = () => {
+    fetch('http://localhost:3000/api/v1/cocktail_dislike_joiners', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+      }
+    })
+      .then(res => res.json())
+      .then(data => this.setState({
+        dislikeJoinersArray: data
+      }))
+  }
+
+  getFavoriteJoiners = () => {
+    fetch('http://localhost:3000/api/v1/cocktail_favorite_joiners', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+      }
+    })
+      .then(res => res.json())
+      .then(data => this.setState({
+        favoriteJoinersArray: data
+      }))
+  }
 
   handleLogIn = (e) => {
     e.preventDefault()
@@ -68,6 +127,10 @@ class App extends React.Component {
         this.getUsers()
         this.setUser(data.name)
         this.getCocktails()
+        // this.getFavorites()
+        // this.getFavoriteJoiners()
+        // this.getDislikes()
+        // this.getDislikeJoiners()
         this.setState({
           currentPage: <Redirect to='/CockTails' />
         })
@@ -98,12 +161,41 @@ class App extends React.Component {
     })
   }
 
+
   like = (cocktail) => {
-    console.log(cocktail)
+    let favoriteList = this.state.favoritesArray.filter(favorite => favorite.user_id === this.state.currentUser.id)[0]
+    console.log(favoriteList)
+    let newJoiner = {
+      cocktail_id: cocktail.id,
+      favorite_id: favoriteList.id
+    }
+    let reqPackage = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      body: JSON.stringify(newJoiner)
+    }
+    fetch('http://localhost:3000/api/v1/cocktail_favorite_joiners', reqPackage)
   }
 
   dislike = (cocktail) => {
-    console.log(cocktail, "dislike function")
+    let dislikeList = this.state.dislikesArray.filter(dislike => dislike.user_id === this.state.currentUser.id)[0]
+    console.log(dislikeList)
+    let newJoiner = {
+      cocktail_id: cocktail.id,
+      dislike_id: dislikeList.id
+    }
+    let reqPackage = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      body: JSON.stringify(newJoiner)
+    }
+    fetch('http://localhost:3000/api/v1/cocktail_dislike_joiners', reqPackage)
   }
 
   handleLogout = () => {
@@ -139,7 +231,7 @@ class App extends React.Component {
             <LogIn handleLogIn={this.handleLogIn} />
           </Route>
           <Route exact path='/UserCard'>
-            <UserCard user={this.state.currentUser} />
+            <UserCard user={this.state.currentUser}/>
           </Route>
         </Switch>
 

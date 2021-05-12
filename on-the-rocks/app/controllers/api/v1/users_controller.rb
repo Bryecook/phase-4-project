@@ -7,12 +7,8 @@ class Api::V1::UsersController < ApplicationController
 
     def index
         users = User.all
-        render json: users
+        render json: users.to_json(include: {favorite: {include: :cocktails}})
     end
 
-    def index
-        users = User.all
-        render :json => users
-    end
     
 end
