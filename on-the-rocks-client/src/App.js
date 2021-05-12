@@ -45,8 +45,6 @@ class App extends React.Component {
       }))
   }
 
-
-
   handleLogIn = (e) => {
     e.preventDefault()
     let user = {
@@ -94,6 +92,7 @@ class App extends React.Component {
   }
 
   addUser=(newuser)=>{
+    console.log(newuser, 'made new user')
     let reqPackage = {
       method: 'POST',
       headers: {
@@ -110,6 +109,19 @@ class App extends React.Component {
         usersArray: [...this.state.usersArray, user]
     }))
   }
+
+  delteProfile=(profile)=>{
+    console.log('delete this', profile)
+    fetch(`http://localhost:3000/api/v1/users/${profile.id}`,{
+      method: 'DELETE',
+    })
+    this.setState({
+      usersArray: this.state.usersArray.filter((user => {
+        return user !== profile
+      }))
+    })
+  }
+
 
   setUser = (name) => {
     let user = this.state.usersArray.filter(user => user.name === name)[0]
@@ -163,7 +175,7 @@ class App extends React.Component {
             <LogIn handleLogIn={this.handleLogIn} />
           </Route>
           <Route exact path='/UserCard'>
-            <UserCard user={this.state.currentUser} />
+            <UserCard user={this.state.currentUser} delteProfile={this.delteProfile}/>
           </Route>
           <Route exact path='/Newuser'>
             <AddUserForm addUser={this.addUser}/>
