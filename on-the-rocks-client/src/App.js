@@ -20,7 +20,8 @@ class App extends React.Component {
   state = {
     cocktailArray: [],
     usersArray: [],
-    currentUser: {}
+    currentUser: {},
+    currentPage: {}
   }
 
   componentDidMount() {
@@ -67,6 +68,9 @@ class App extends React.Component {
         this.getUsers()
         this.setUser(data.name)
         this.getCocktails()
+        this.setState({
+          currentPage: <Redirect to='/CockTails' />
+        })
         // <Redirect to='/CocktailContainer' />
       })
   }
@@ -84,11 +88,11 @@ class App extends React.Component {
       .then(data => this.setState({
         usersArray: data
       }))
-      console.log(this.state.usersArray)
+    console.log(this.state.usersArray)
   }
 
   setUser = (name) => {
-    let user = this.state.usersArray.filter(user => user.name === name  )[0]
+    let user = this.state.usersArray.filter(user => user.name === name)[0]
     this.setState({
       currentUser: user
     })
@@ -102,33 +106,47 @@ class App extends React.Component {
     console.log(cocktail, "dislike function")
   }
 
+  handleLogout = () => {
+    localStorage.clear()
+    // return <Redirect to='/LogIn' />
+    this.setState({
+      currentPage: <Redirect to='/' />
+    })
+  }
+
   render() {
     return (
       <BrowserRouter>
-      <nav>
-        <ul>
-          <li>
-            {localStorage.token ? <Link to='/Cocktails'>Cocktails</Link> : <Redirect to='/' />}
-          </li>
-          <li>
-            
-          </li>
-        </ul>
-      </nav>
+        <nav>
+          <ul>
+            <li>
+              <Link to='/'>Log In</Link>
+            </li>
+            <li>
+              {localStorage.token ? <Link to='/Cocktails'>Cocktails</Link> : <Redirect to='/' />}
+            </li>
+            <li>
+              <Link to='/UserCard'>User Profile</Link>
+            </li>
+            <li>
+              <button onClick={() => this.handleLogout()}>Log Out</button>
+            </li>
+          </ul>
+        </nav>
         <Switch>
           <Route exact path="/" >
             <h1>Log In Here</h1>
             <LogIn handleLogIn={this.handleLogIn} />
           </Route>
           <Route exact path='/UserCard'>
-            <UserCard user={this.state.currentUser}/>
+            <UserCard user={this.state.currentUser} />
           </Route>
         </Switch>
 
         <Switch >
           <Route exact path="/cocktails">
-          <CocktailContainer cocktailArray = {this.state.cocktailArray} like= {this.like} dislike= {this.dislike}/>
-          </Route> 
+            <CocktailContainer cocktailArray={this.state.cocktailArray} like={this.like} dislike={this.dislike} />
+          </Route>
         </Switch>
       </BrowserRouter>
     );
