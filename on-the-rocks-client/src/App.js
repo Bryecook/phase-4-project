@@ -4,6 +4,7 @@ import CocktailContainer from './containers/CocktailContainer'
 import React from 'react'
 import LogIn from './Login.js'
 import UserCard from './components/UserCard'
+import AddUserForm from './components/AddUserForm'
 
 import {
   BrowserRouter as Router,
@@ -22,6 +23,7 @@ class App extends React.Component {
     usersArray: [],
     currentUser: {},
     currentPage: {}
+
   }
 
   componentDidMount() {
@@ -91,8 +93,27 @@ class App extends React.Component {
     console.log(this.state.usersArray)
   }
 
+  addUser=(newuser)=>{
+    let reqPackage = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': `Bearer ${localStorage.token}`
+      },
+      body: JSON.stringify(newuser)
+    }
+
+    fetch('http://localhost:3000/api/v1/users', {reqPackage})
+    .then(res => res.json())
+    .then(user => this.setState({
+        usersArray: [...this.state.usersArray, user]
+    }))
+  }
+
   setUser = (name) => {
     let user = this.state.usersArray.filter(user => user.name === name)[0]
+    console.log(user)
     this.setState({
       currentUser: user
     })
@@ -129,6 +150,9 @@ class App extends React.Component {
               <Link to='/UserCard'>User Profile</Link>
             </li>
             <li>
+              <Link to='/NewUser'>Create New Profile</Link>
+            </li>
+            <li>
               <button onClick={() => this.handleLogout()}>Log Out</button>
             </li>
           </ul>
@@ -140,6 +164,9 @@ class App extends React.Component {
           </Route>
           <Route exact path='/UserCard'>
             <UserCard user={this.state.currentUser} />
+          </Route>
+          <Route exact path='/Newuser'>
+            <AddUserForm addUser={this.addUser}/>
           </Route>
         </Switch>
 

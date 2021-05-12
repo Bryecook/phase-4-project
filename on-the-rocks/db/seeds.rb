@@ -38,8 +38,8 @@ array.each do |cocktail|
     Cocktail.create(name: cocktail["strDrink"], ingredients: ingredient_array, instructions: cocktail["strInstructions"], glass: cocktail["strGlass"], picture: cocktail["strDrinkThumb"])
 end
 
-User.create(name: "Jose", age: "26", hometown: "Chicago", picture: "", password: "react")
-User.create(name: "Brian", age: "25", hometown: "Birmingham", picture: "", password: "rails")
+User.create(name: "Jose", age: "26", hometown: "Chicago", picture: "https://ca.slack-edge.com/T02MD9XTF-U01M24ZT5EW-28a291110cd7-512", password: "react")
+User.create(name: "Brian", age: "25", hometown: "Birmingham", picture: "https://ca.slack-edge.com/T02MD9XTF-U01LYJ715LP-e359db4e2cad-512", password: "rails")
 
 Favorite.create(user_id: User.first.id)
 Favorite.create(user_id: User.second.id)
