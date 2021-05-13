@@ -4,20 +4,30 @@ import styles from '../App.css'
 class Cocktail extends Component{
 
     state = {
-        show: false,
+        show: false
+
     };
+
 
     toggleCocktail = () => {
         this.setState({ show: !this.state.show});
     }
 
-    // clickLikeHandler = (e) => {
-    //     console.log(e)
-    // }
+    clickLikeHandler = () => {
+        console.log('click handler')
+        this.props.like(this.props.cocktail)
+    }
 
+    dislike = (cocktail) => {
+        let a = this.props.user.favorite.cocktail_favorite_joiners.filter(joiner => joiner.cocktail_id === cocktail.id)[0]
+        fetch(`http://localhost:3000/api/v1/cocktail_favorite_joiners/${a.id}`, {
+          method: "DELETE",});
+        this.props.refresh(this.props.cocktail)
+        }
 
     render(){
         let backgroundImage = this.props.cocktail.picture
+        let b= this.props.user.favorite.cocktails.map(cocktail => cocktail.id)
         return(
             <div>
                 {this.state.show === false ? 
@@ -25,8 +35,11 @@ class Cocktail extends Component{
                     <img className = "card-image" src= {backgroundImage} onClick={this.toggleCocktail}/>
                     <div className = "container">
                         <h5 className= "title">{this.props.cocktail.name}</h5>
+                        {b.includes(this.props.cocktail.id) ?  
+                        <button type="button" className="dislike-button" onClick={() => this.dislike(this.props.cocktail)}>Remove from list</button> : 
                         <button type="button" className="like-button" onClick={() => this.props.like(this.props.cocktail)}>Add to favorites!</button>
-                        <button type="button" className="dislike-button" onClick={() => this.props.dislike(this.props.cocktail)}>Remove from list</button>
+                        }
+                       
                     </div>
                 </div>
                 :
@@ -38,9 +51,11 @@ class Cocktail extends Component{
                             {this.props.cocktail.ingredients.map((ingredient) =>
                             <li>{ingredient}</li>)}
                         </ul>
-                        <p>{this.props.cocktail.instructions}</p>
+                        <p className = "instructions" >{this.props.cocktail.instructions}</p>
+                        {this.props.user.favorite.cocktails.includes(this.props.cocktail) ?  
+                        <button type="button" className="dislike-button" onClick={() => this.dislike(this.props.cocktail)}>Remove from list</button> : 
                         <button type="button" className="like-button" onClick={() => this.props.like(this.props.cocktail)}>Add to favorites!</button>
-                        <button type="button" className="dislike-button" onClick={() => this.props.dislike(this.props.cocktail)}>Remove from list</button>
+                        }
                     </div>
                 </div>
             }

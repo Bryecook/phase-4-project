@@ -22,12 +22,7 @@ class App extends React.Component {
     cocktailArray: [],
     usersArray: [],
     currentUser: {},
-    currentPage: {},
-    favoritesArray: [],
-    favoriteJoinersArray: [],
-    dislikesArray: [],
-    dislikeJoinersArray: [],
-    currentUserFavorites: []
+    currentPage: {}
   }
 
   componentDidMount() {
@@ -63,32 +58,10 @@ class App extends React.Component {
       }))
   }
 
-  getDislikes = () => {
-    fetch('http://localhost:3000/api/v1/dislikes', {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-      }
+  refresh = (updatedCocktail) => {
+    this.setState({
+      cocktailArray: this.state.cocktailArray.map(cocktail => cocktail.id === updatedCocktail.id ? updatedCocktail : cocktail)
     })
-      .then(res => res.json())
-      .then(data => this.setState({
-        dislikesArray: data
-      }))
-  }
-
-  getDislikeJoiners = () => {
-    fetch('http://localhost:3000/api/v1/cocktail_dislike_joiners', {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-      }
-    })
-      .then(res => res.json())
-      .then(data => this.setState({
-        dislikeJoinersArray: data
-      }))
   }
 
   getFavoriteJoiners = () => {
@@ -128,10 +101,6 @@ class App extends React.Component {
         this.getUsers()
         this.setUser(data.name)
         this.getCocktails()
-        // this.getFavorites()
-        // this.getFavoriteJoiners()
-        // this.getDislikes()
-        // this.getDislikeJoiners()
         this.setState({
           currentPage: <Redirect to='/CockTails' />
         })
@@ -174,7 +143,7 @@ class App extends React.Component {
     }))
   }
 
-  delteProfile=(profile)=>{
+  deleteProfile=(profile)=>{
     console.log('delete this', profile)
     fetch(`http://localhost:3000/api/v1/users/${profile.id}`,{
       method: 'DELETE',
@@ -197,11 +166,9 @@ class App extends React.Component {
 
 
   like = (cocktail) => {
-    let favoriteList = this.state.favoritesArray.filter(favorite => favorite.user_id === this.state.currentUser.id)[0]
-    console.log(favoriteList)
     let newJoiner = {
       cocktail_id: cocktail.id,
-      favorite_id: favoriteList.id
+      favorite_id: this.state.currentUser.favorite.id
     }
     let reqPackage = {
       method: 'POST',
@@ -212,25 +179,21 @@ class App extends React.Component {
       body: JSON.stringify(newJoiner)
     }
     fetch('http://localhost:3000/api/v1/cocktail_favorite_joiners', reqPackage)
+    this.setState({
+      cocktailArray: this.state.cocktailArray.map(cocktailObject => cocktailObject.id === cocktail.id ? cocktail : cocktailObject
+      )
+    })
   }
 
   dislike = (cocktail) => {
-    let dislikeList = this.state.dislikesArray.filter(dislike => dislike.user_id === this.state.currentUser.id)[0]
-    console.log(dislikeList)
-    let newJoiner = {
-      cocktail_id: cocktail.id,
-      dislike_id: dislikeList.id
+    console.log(this.state.currentUser.favorite.cocktail_favorite_joiners)
+    let a = this.state.currentUser.favorite.cocktail_favorite_joiners.filter(joiner => joiner.cocktail_id === cocktail.id)[0]
+    fetch(`http://localhost:3000/api/v1/cocktail_favorite_joiners/${a.id}`, {
+      method: "DELETE",
+    });
+
     }
-    let reqPackage = {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json'
-      },
-      body: JSON.stringify(newJoiner)
-    }
-    fetch('http://localhost:3000/api/v1/cocktail_dislike_joiners', reqPackage)
-  }
+    
 
   handleLogout = () => {
     localStorage.clear()
@@ -268,7 +231,7 @@ class App extends React.Component {
             <LogIn handleLogIn={this.handleLogIn} />
           </Route>
           <Route exact path='/UserCard'>
-            <UserCard user={this.state.currentUser} delteProfile={this.delteProfile}/>
+            <UserCard user={this.state.currentUser} deleteProfile={this.deleteProfile} dislike={this.dislike} refresh={this.refresh}/>
           </Route>
           <Route exact path='/Newuser'>
             <AddUserForm addUser={this.addUser}/>
@@ -277,7 +240,7 @@ class App extends React.Component {
 
         <Switch >
           <Route exact path="/cocktails">
-            <CocktailContainer cocktailArray={this.state.cocktailArray} like={this.like} dislike={this.dislike} />
+            <CocktailContainer cocktailArray={this.state.cocktailArray} like={this.like} dislike={this.dislike} user={this.state.currentUser} refresh={this.refresh}/>
           </Route>
         </Switch>
       </BrowserRouter>

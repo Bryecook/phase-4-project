@@ -7,8 +7,22 @@ export default class UserCard extends Component {
         this.props.deleteProfile(this.props.profile)
     }
 
+    unique = (value, index, self) => {
+        return self.indexOf(value) === index
+      }
+    
+    
     render() {
         console.log(this.props.user.favorites)
+
+        var resArr = [];
+        this.props.user.favorite.cocktails.forEach(function(item){
+        var i = resArr.findIndex(x => x.name == item.name);
+        if(i <= -1){
+            resArr.push(item);
+            }
+        }); 
+        console.log(resArr)
         return (
             <div>
                 <h1>{this.props.user.name}'s Profile</h1>
@@ -17,8 +31,8 @@ export default class UserCard extends Component {
                 <img className='photo' src={this.props.user.picture}/> <br/>
                 <button onClick={this.handleClick} className='del-btn'>Delete Profile</button>
                 {
-                this.props.user.favorite.cocktails.map((cocktail) => 
-            <Cocktail cocktail={cocktail} like={this.props.like} dislike={this.props.dislike}/>)
+                resArr.map((cocktail) => 
+            <Cocktail cocktail={cocktail} like={this.props.like} dislike={this.props.dislike} user= {this.props.user} refresh= {this.props.refresh}/>)
 
             }
                
