@@ -5,6 +5,7 @@ import React from 'react'
 import LogIn from './Login.js'
 import UserCard from './components/UserCard'
 import AddUserForm from './components/AddUserForm'
+import NewCocktailForm from './components/NewCocktailForm'
 
 import {
   BrowserRouter as Router,
@@ -32,6 +33,7 @@ class App extends React.Component {
 
   componentDidMount() {
     console.log('mounted')
+    this.getUsers()
   }
 
   getCocktails = () => {
@@ -132,10 +134,7 @@ class App extends React.Component {
         // this.getFavoriteJoiners()
         // this.getDislikes()
         // this.getDislikeJoiners()
-        this.setState({
-          currentPage: <Redirect to='/CockTails' />
-        })
-        // <Redirect to='/CocktailContainer' />
+        console.log(data)
       })
   }
 
@@ -156,7 +155,7 @@ class App extends React.Component {
   }
 
   addUser=(newuser)=>{
-    console.log(newuser, 'made new user')
+    console.log('props', this.props)
     let reqPackage = {
       method: 'POST',
       headers: {
@@ -166,15 +165,16 @@ class App extends React.Component {
       },
       body: JSON.stringify(newuser)
     }
-
-    fetch('http://localhost:3000/api/v1/users', {reqPackage})
+    
+    fetch('http://localhost:3000/api/v1/users', reqPackage)
     .then(res => res.json())
     .then(user => this.setState({
-        usersArray: [...this.state.usersArray, user]
+      usersArray: [...this.state.usersArray, user]
+      // console.log(newuser, 'made new user')
     }))
   }
 
-  delteProfile=(profile)=>{
+  deleteProfile=(profile)=>{
     console.log('delete this', profile)
     fetch(`http://localhost:3000/api/v1/users/${profile.id}`,{
       method: 'DELETE',
@@ -184,6 +184,15 @@ class App extends React.Component {
         return user !== profile
       }))
     })
+  }
+
+  createCocktail=(cocktail)=>{
+    console.log('created', cocktail)
+    fetch('http://localhost:3000/api/v1/cocktails')
+    .then(res => res.json())
+    .then(data => this.setState({
+      cocktailArray: [...this.state.cocktailArray, data]
+    }))
   }
 
 
@@ -234,6 +243,7 @@ class App extends React.Component {
 
   handleLogout = () => {
     localStorage.clear()
+    console.log('logged out')
     // return <Redirect to='/LogIn' />
     this.setState({
       currentPage: <Redirect to='/' />
@@ -258,26 +268,32 @@ class App extends React.Component {
               <Link to='/NewUser'>Create New Profile</Link>
             </li>
             <li>
+              <Link to='/NewCocktail'>Create Cocktail</Link>
+            </li>
+            <li>
               <button onClick={() => this.handleLogout()}>Log Out</button>
             </li>
           </ul>
         </nav>
         <Switch>
-          <Route exact path="/" >
+          <Route exact path="/" render={(routerProps) => <LogIn handleLogIn={this.handleLogIn} {...routerProps} />}>
             <h1>Log In Here</h1>
             <LogIn handleLogIn={this.handleLogIn} />
           </Route>
-          <Route exact path='/UserCard'>
-            <UserCard user={this.state.currentUser} delteProfile={this.delteProfile}/>
+          <Route exact path='/UserCard' render={(routerProps) => <UserCard user={this.state.currentUser} deleteProfile={this.deleteProfile} logout={this.handleLogout} {...routerProps}/>}>
+            
           </Route>
-          <Route exact path='/Newuser'>
-            <AddUserForm addUser={this.addUser}/>
+          <Route exact path='/Newuser' render={(routerProps) => <AddUserForm addUser={this.addUser} {...routerProps}/>}>
+            
           </Route>
-        </Switch>
+          <Route exact path='/NewCocktail'>
+            <NewCocktailForm />
+          </Route>
+        {/* </Switch>
 
-        <Switch >
+        <Switch > */}
           <Route exact path="/cocktails">
-            <CocktailContainer cocktailArray={this.state.cocktailArray} like={this.like} dislike={this.dislike} />
+            <CocktailContainer cocktailArray={this.state.cocktailArray} like={this.like} dislike={this.dislike} user={this.state.currentUser} />
           </Route>
         </Switch>
       </BrowserRouter>

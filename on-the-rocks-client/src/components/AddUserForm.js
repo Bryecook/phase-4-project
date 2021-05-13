@@ -4,15 +4,10 @@ export default class AddUserForm extends Component {
 
     handlesubmit=(e)=>{
         e.preventDefault()
-        // console.log(e.target[0].value)
-        // let newUser = {
-        //   name: e.target[0].value,
-        //   age: e.target[1].value,
-        //   hometown: e.target[2].value,
-        //   picture: e.target[3].value,
-        //   password: e.target[4].value
-        // }
+        console.log('formsubmitted', this.props)
         this.props.addUser(this.state)
+        this.props.history.push('/Cocktails')
+        // this.props.history.location.pathname = '/Cocktails'
     }
 
     changeHandler=(e)=>{
