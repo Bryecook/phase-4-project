@@ -12,9 +12,10 @@ class CocktailContainer extends Component {
         console.log(this.props.user)
         return (
             <div className="cocktail-collection">
+                <h3>Welcome {this.props.user.name}</h3> 
             {
                 this.props.cocktailArray.map((cocktail) => 
-            <Cocktail cocktail={cocktail} like={this.props.like} dislike={this.props.dislike} user={this.props.user} refresh={this.props.refresh}/>)
+            <Cocktail cocktail={cocktail} like={this.props.like} dislike={this.props.dislike} user={this.props.user} like={this.props.like}/>)
 
             }
     
