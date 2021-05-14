@@ -9,7 +9,7 @@ export default class UserCard extends Component {
         this.props.history.push('/login ')
     }
 
-    
+
     render() {
         // var resArr = [];
         // this.props.favorites.forEach(function(item){
@@ -30,8 +30,10 @@ export default class UserCard extends Component {
                 this.props.favorites.map((cocktail) => 
             <FavoriteCocktail cocktail={cocktail} like={this.props.like} dislike={this.props.dislike} user= {this.props.user} refresh= {this.props.refresh} favorites = {this.props.favorites}/>)}
                     
-                <button onClick={this.handleClick} className='del-btn'>Delete Profile</button>
+                    <button onClick={this.handleClick} className='del-btn'>Delete Profile</button>
             </div>
+           
+                
         )
     }
 }
