@@ -1,7 +1,7 @@
 class Api::V1::UsersController < ApplicationController
     
     def show
-        user = User.all
+        users = User.all
         render json: users
     end
 
@@ -12,8 +12,16 @@ class Api::V1::UsersController < ApplicationController
 
 
     def create
-       User.create(name: params[:name], age: params[:age], hometown: params[:hometown], picture: params[:picture], password_digest: params[:password])
-        # render json: user
+      user = User.create(name: params[:name], age: params[:age], hometown: params[:hometown], picture: params[:picture], password: params[:password])
+        render json: user 
+        Favorite.create(user_id: User.last.id)
     end
-    
+
+    def destroy
+        user = User.find(params[:id])
+        user.destroy
+        # User.destroy
+        # redirect_to '/login'
+    end
+
 end
