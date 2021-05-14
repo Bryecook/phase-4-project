@@ -40,7 +40,7 @@ class Cocktail extends Component{
                             <li>{ingredient}</li>)}
                         </ul>
                         <p className = "instructions" >{this.props.cocktail.instructions}</p>
-                        {b.includes(this.props.cocktail) ?  
+                        {b.includes(this.props.cocktail.id) ?  
                         <button type="button" className="dislike-button" onClick={() => this.props.dislike(this.props.cocktail)}>Remove from list</button> : 
                         <button type="button" className="like-button" onClick={() => this.props.like(this.props.cocktail)}>Add to favorites!</button>
                         }

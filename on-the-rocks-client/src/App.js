@@ -199,13 +199,16 @@ class App extends React.Component {
   };
 
   dislike = (cocktail) => {
+    let b = this.state.currentUser.favorite.cocktail_favorite_joiners.filter(joiner => joiner.cocktail_id === cocktail.id)
     this.setState({
-        favoriteCocktails: this.state.favoriteCocktails.filter(cocktailObject => cocktailObject != cocktail)
-      })
+        favoriteCocktails: this.state.favoriteCocktails.filter(cocktailObject => {
+          return cocktailObject != cocktail;
+      },()=> console.log(this.state))
+    })
     console.log('im in the dislike', this.state)
 
-    let a = this.state.favoriteCocktails.cocktail_favorite_joiners.filter(joiner => joiner.cocktail_id === cocktail.id)[0]
-    fetch(`http://localhost:3000/api/v1/cocktail_favorite_joiners/${a.id}`, {
+    // let a = this.state.currentUser.favorite.cocktail_favorite_joiners.filter(joiner => joiner.cocktail_id === cocktail.id)[0]
+    fetch(`http://localhost:3000/api/v1/cocktail_favorite_joiners/${b.id}`, {
       method: "DELETE",
     });
     console.log('removed')
