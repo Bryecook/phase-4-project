@@ -4,8 +4,8 @@ import Cocktail from '../components/Cocktail'
 class CocktailContainer extends Component {
 
     state = {
-        // user: this.props.user,
-        // cocktailArray: this.props.cocktailArray
+        user: this.props.user,
+        cocktailArray: this.props.cocktailArray
     }
 
     render() {

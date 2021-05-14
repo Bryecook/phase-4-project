@@ -24,7 +24,8 @@ class App extends React.Component {
     usersArray: [],
     currentUser: {},
     currentPage: {},
-    favoriteCocktails: []
+    favoriteCocktails: [],
+    loggedin: false
   }
 
   componentDidMount() {
@@ -107,9 +108,12 @@ class App extends React.Component {
         this.getUsers()
         this.setUser(data.name)
         this.getCocktails()
-        this.getFavorites()
+        // this.getFavorites()
         this.setState({
-          currentPage: <Redirect to='/CockTails' />
+          loggedin: true,
+          // currentPage: <Redirect to='/UserCard' />
+          currentPage: this.state.loggedin === true ? <CocktailContainer /> : this.handleLogIn
+          // button: !this.state.button
         })
       })
   }
@@ -176,7 +180,8 @@ class App extends React.Component {
     let user = this.state.usersArray.filter(user => user.name === name)[0]
     console.log(user)
     this.setState({
-      currentUser: user
+      currentUser: user,
+      // currentPage: <CocktailContainer />
     })
   }
 
@@ -261,8 +266,8 @@ class App extends React.Component {
           <Route exact path='/Newuser' render={(routerProps) => <AddUserForm addUser={this.addUser} {...routerProps}/>}>
             
           </Route>
-          <Route exact path='/NewCocktail'>
-            <NewCocktailForm />
+          <Route exact path='/NewCocktail' >
+            <NewCocktailForm createCocktail={this.createCocktail}/>
           </Route>
         {/* </Switch>
 
