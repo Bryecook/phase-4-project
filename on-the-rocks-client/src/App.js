@@ -152,6 +152,15 @@ class App extends React.Component {
 
   createCocktail=(cocktail)=>{
     console.log('created', cocktail)
+    let reqPackage = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': `Bearer ${localStorage.token}`
+      },
+      body: JSON.stringify(cocktail)
+    }
     fetch('http://localhost:3000/api/v1/cocktails')
     .then(res => res.json())
     .then(data => this.setState({
@@ -263,7 +272,7 @@ class App extends React.Component {
             
           </Route>
           <Route exact path='/NewCocktail'>
-            <NewCocktailForm />
+            <NewCocktailForm createCocktail={this.createCocktail}/>
           </Route>
         {/* </Switch>
 
