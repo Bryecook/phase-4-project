@@ -11,6 +11,7 @@ Rails.application.routes.draw do
       resources :cocktail_dislike_joiners
       post '/login', to: "auth#login"
       # post '/NewUser', to: 'users#new'
+      get '/userfavorites', to: "cocktail_favorite_joiners#user_favorites"
     end
   end
 end

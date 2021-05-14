@@ -1,6 +1,8 @@
 import React from 'react'
+import { render } from 'react-dom';
 
 const LogIn = props => {
+    
     return (
         <form onSubmit={props.handleLogIn}>
             <label>UserName</label>
@@ -13,5 +15,6 @@ const LogIn = props => {
         </form>
     )
 }
+
 
 export default LogIn;
