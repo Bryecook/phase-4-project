@@ -5,12 +5,14 @@ class Api::V1::CocktailFavoriteJoinersController < ApplicationController
     end
 
     def create
-        CocktailFavoriteJoiner.create(cocktail_id: params[:cocktail_id], favorite_id: params[:favorite_id])
+        cocktail= CocktailFavoriteJoiner.create(cocktail_id: params[:cocktail_id], favorite_id: params[:favorite_id])
+        render json: cocktail.to_json(include: :cocktail)
     end
 
     def destroy
         joiner = CocktailFavoriteJoiner.find(params[:id])
         joiner.destroy
+        render json: joiner
     end
 
     def user_favorites

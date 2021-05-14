@@ -13,21 +13,9 @@ class Cocktail extends Component{
         this.setState({ show: !this.state.show});
     }
 
-    clickLikeHandler = () => {
-        console.log('click handler')
-        this.props.like(this.props.cocktail)
-    }
-
-    dislike = (cocktail) => {
-        let a = this.props.user.favorite.cocktail_favorite_joiners.filter(joiner => joiner.cocktail_id === cocktail.id)[0]
-        fetch(`http://localhost:3000/api/v1/cocktail_favorite_joiners/${a.id}`, {
-          method: "DELETE",});
-        this.props.refresh(this.props.cocktail)
-        }
-
     render(){
         let backgroundImage = this.props.cocktail.picture
-        let b= this.props.user.favorite.cocktails.map(cocktail => cocktail.id)
+        let b= this.props.favorites.map(cocktail => cocktail.id)
         return(
             <div>
                 {this.state.show === false ? 

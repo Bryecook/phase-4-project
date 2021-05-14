@@ -13,10 +13,6 @@ class FavoriteCocktail extends Component{
         this.setState({ show: !this.state.show});
     }
 
-    clickLikeHandler = () => {
-        console.log('click handler')
-        this.props.like(this.props.cocktail)
-    }
 
 
     render(){
@@ -28,11 +24,10 @@ class FavoriteCocktail extends Component{
                     <img className = "card-image" src= {backgroundImage} onClick={this.toggleCocktail}/>
                     <div className = "container">
                         <h5 className= "title">{this.props.cocktail.name}</h5>
-                        {this.props.favorites.includes(this.props.cocktail.id) ?  
+                        {this.props.favorites.includes(this.props.cocktail) ?  
                         <button type="button" className="dislike-button" onClick={() => this.props.dislike(this.props.cocktail)}>Remove from list</button> : 
                         <button type="button" className="like-button" onClick={() => this.props.like(this.props.cocktail)}>Add to favorites!</button>
                         }
-                       
                     </div>
                 </div>
                 :

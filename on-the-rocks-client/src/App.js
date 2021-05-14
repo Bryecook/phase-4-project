@@ -44,28 +44,15 @@ class App extends React.Component {
       .then(res => res.json())
       .then(data => this.setState({
         cocktailArray: data,
-        favoriteCocktails: this.state.currentUser.favorite.cocktails
       }))
-      console.log(this.state.favoriteCocktails) 
   }
 
 
   getFavorites = () => {
-    // fetch('http://localhost:3000/api/v1/userfavorites', {
-    //   method: 'GET',
-    //   headers: {
-    //     'Content-Type': 'application/json',
-    //     'Accept': 'application/json',
-    //     'Authorization': `Bearer ${localStorage.token}`
-    //   }
-    // })
-    //   .then(res => res.json())
-    //   .then(data => this.setState({
-    //     favoriteCocktails: data
-    //   }))
     let faves = this.state.currentUser.favorite.cocktails
     this.setState({
-      favoriteCocktails: faves
+      favoriteCocktails: faves,
+      // cocktailArray: this.state.cocktailArray.map(cocktail => cocktail)
     })
     console.log(this.state.favoriteCocktails)
   }
@@ -127,7 +114,8 @@ class App extends React.Component {
       .then(data => this.setState({
         usersArray: data
       }))
-    console.log(this.state.usersArray)
+    console.log(this.state.usersArray, "im in get users")
+
   }
 
   addUser=(newuser)=>{
@@ -182,6 +170,9 @@ class App extends React.Component {
 
 
   like = (cocktail) => {
+    this.setState({
+      favoriteCocktails: [...this.state.favoriteCocktails, cocktail]
+    })
     let newJoiner = {
       cocktail_id: cocktail.id,
       favorite_id: this.state.currentUser.favorite.id
@@ -196,23 +187,30 @@ class App extends React.Component {
     }
     fetch('http://localhost:3000/api/v1/cocktail_favorite_joiners', reqPackage)
     .then(res => res.json())
-    .then(cocktailJoiner => {
+    .then((cocktailJoiner) => {
+      console.log(cocktailJoiner, 'added')
       this.setState({
-        favoriteCocktails: [...this.state.favoriteCocktails, cocktailJoiner.cocktail]
-      })
-    })
-  }
+        // favoriteCocktails: [...this.state.favoriteCocktails, cocktailJoiner.cocktail],
+        cocktailArray: this.state.cocktailArray.map(cocktail => cocktail)
+      },()=> console.log(this.state));
+    });
+    // this.getUsers()
+    // this.getCocktails()
+  };
 
   dislike = (cocktail) => {
-    let a = this.state.currentUser.favorite.cocktail_favorite_joiners.filter(joiner => joiner.cocktail_id === cocktail.id)[0]
+    this.setState({
+        favoriteCocktails: this.state.favoriteCocktails.filter(cocktailObject => cocktailObject != cocktail)
+      })
+    console.log('im in the dislike', this.state)
+
+    let a = this.state.favoriteCocktails.cocktail_favorite_joiners.filter(joiner => joiner.cocktail_id === cocktail.id)[0]
     fetch(`http://localhost:3000/api/v1/cocktail_favorite_joiners/${a.id}`, {
       method: "DELETE",
     });
-    this.setState({
-      favoriteCocktails: this.state.favoriteCocktails.filter(cocktailObject => {
-        return cocktailObject != cocktail;
-      })
-    })
+    console.log('removed')
+    // this.getUsers()
+    // this.getFavorites()
     }
     
 
@@ -268,7 +266,7 @@ class App extends React.Component {
 
         <Switch > */}
           <Route exact path="/cocktails">
-            <CocktailContainer cocktailArray={this.state.cocktailArray} like={this.like} dislike={this.dislike} user={this.state.currentUser} />
+            <CocktailContainer cocktailArray={this.state.cocktailArray} like={this.like} dislike={this.dislike} user={this.state.currentUser} favorites={this.state.favoriteCocktails}/>
           </Route>
         </Switch>
       </BrowserRouter>

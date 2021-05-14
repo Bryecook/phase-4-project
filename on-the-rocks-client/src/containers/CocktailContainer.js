@@ -15,7 +15,7 @@ class CocktailContainer extends Component {
                 <h3>Welcome {this.props.user.name}</h3> 
             {
                 this.props.cocktailArray.map((cocktail) => 
-            <Cocktail cocktail={cocktail} like={this.props.like} dislike={this.props.dislike} user={this.props.user} like={this.props.like}/>)
+            <Cocktail cocktail={cocktail} dislike={this.props.dislike} user={this.props.user} like={this.props.like} favorites={this.props.favorites}/>)
 
             }
     
