@@ -102,6 +102,10 @@ body {
   opacity: 1;
 }
 
+.center {
+  text-align: center;
+}
+
 .instructions {
   overflow-wrap: normal;
 }
