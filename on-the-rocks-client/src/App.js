@@ -82,7 +82,8 @@ class App extends React.Component {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Accept': 'application/json'
+        'Accept': 'application/json',
+        'Authorization': `Bearer ${localStorage.token}`
       },
       body: JSON.stringify(user)
     }
@@ -95,9 +96,6 @@ class App extends React.Component {
         this.setUser(data.name)
         this.getCocktails()
         this.getFavorites()
-        this.setState({
-          currentPage: <Redirect to='/CockTails' />
-        })
       })
   }
 
@@ -118,6 +116,20 @@ class App extends React.Component {
 
   }
 
+// makeFavorite = () => {
+//   let reqPackage = {
+//     method: 'POST',
+//     headers: {
+//       'Content-Type': 'application/json',
+//       'Accept': 'application/json',
+//       'Authorization': `Bearer ${localStorage.token}`
+//     },
+//     body: JSON.stringify(newuser)
+//   }
+  
+//   fetch('http://localhost:3000/api/v1/favorites', reqPackage)
+// }
+
   addUser=(newuser)=>{
     console.log('props', this.props)
     let reqPackage = {
@@ -133,9 +145,12 @@ class App extends React.Component {
     fetch('http://localhost:3000/api/v1/users', reqPackage)
     .then(res => res.json())
     .then(user => this.setState({
-      usersArray: [...this.state.usersArray, user]
+      usersArray: [...this.state.usersArray, user],
+      currentUser: user
       // console.log(newuser, 'made new user')
     }))
+    // this.makeFavorite()
+    this.getCocktails()
   }
 
   deleteProfile=(profile)=>{
@@ -261,7 +276,7 @@ class App extends React.Component {
           </ul>
         </nav>
         <Switch>
-          <Route exact path="/" render={(routerProps) => <LogIn handleLogIn={this.handleLogIn} {...routerProps} />}>
+          <Route exact path="/">
             <h1>Log In Here</h1>
             <LogIn handleLogIn={this.handleLogIn} />
           </Route>
