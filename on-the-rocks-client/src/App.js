@@ -258,7 +258,7 @@ class App extends React.Component {
           </ul>
         </nav>
         <Switch>
-          <Route exact path="/" render={(routerProps) => <LogIn handleLogIn={this.handleLogIn} {...routerProps} />}>
+          <Route exact path="/"  >
             <h1>Log In Here</h1>
             <LogIn handleLogIn={this.handleLogIn} />
           </Route>
