@@ -5,4 +5,8 @@ class Api::V1::FavoritesController < ApplicationController
         render :json => favorites
     end
 
+    def create
+        favorite = Favorite.create(user_id: User.last.id)
+    end
+
 end

@@ -13,8 +13,8 @@ class Api::V1::UsersController < ApplicationController
 
     def create
       user = User.create(name: params[:name], age: params[:age], hometown: params[:hometown], picture: params[:picture], password: params[:password])
-        render json: user 
         Favorite.create(user_id: User.last.id)
+        render json: user 
     end
 
     def destroy
