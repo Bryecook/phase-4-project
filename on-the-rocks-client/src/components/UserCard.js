@@ -28,7 +28,8 @@ export default class UserCard extends Component {
                 <h3 className= 'center'> Favorite Cocktails! </h3>
                 {
                 this.props.favorites.map((cocktail) => 
-            <FavoriteCocktail cocktail={cocktail} like={this.props.like} dislike={this.props.dislike} user= {this.props.user} refresh= {this.props.refresh} favorites = {this.props.favorites}/>)}
+            <FavoriteCocktail cocktail={cocktail} like={this.props.like} dislike={this.props.dislike} user= {this.props.user} refresh= {this.props.refresh} favorites = {this.props.favorites}/>)
+            }
                     
                     <button onClick={this.handleClick} className='del-btn'>Delete Profile</button>
             </div>

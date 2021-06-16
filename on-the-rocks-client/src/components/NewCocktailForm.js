@@ -25,7 +25,7 @@ export default class NewCocktailForm extends Component {
                 <div>
                     <form onSubmit={this.submitHandler}>
                         <input type='text' name='name' placeholder='Name of Drink' onChange={this.changeHandler} ></input><br /><br />
-                        <textarea type='text' name='name' placeholder='Ingredients needed' rows={10}onChange={this.changeHandler}  ></textarea><br /><br />
+                        <textarea type='text' name='name' placeholder='Ingredients needed' rows={10} onChange={this.changeHandler}  ></textarea><br /><br />
                         <textarea type='text' name='name' placeholder='Instructions' onChange={this.changeHandler} ></textarea><br /><br />
                         <input type='text' name='name' placeholder='Type of Glass' onChange={this.changeHandler} ></input><br /><br />
                         <input type='text' name='picture' placeholder='Image URL' onChange={this.changeHandler} ></input><br /><br />

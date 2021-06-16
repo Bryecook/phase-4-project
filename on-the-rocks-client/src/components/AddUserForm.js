@@ -6,7 +6,7 @@ export default class AddUserForm extends Component {
         e.preventDefault()
         console.log('formsubmitted', this.props)
         this.props.addUser(this.state)
-        this.props.history.push('/Cocktails')
+        this.props.history.push('/breweries')
         // this.props.history.location.pathname = '/Cocktails'
     }
 

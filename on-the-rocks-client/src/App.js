@@ -116,7 +116,10 @@ class App extends React.Component {
 
   }
 
-// makeFavorite = () => {
+// makeFavorite = (newuser) => {
+//   let newfav = {
+//     user_id: newuser.id
+//   }
 //   let reqPackage = {
 //     method: 'POST',
 //     headers: {
@@ -124,7 +127,7 @@ class App extends React.Component {
 //       'Accept': 'application/json',
 //       'Authorization': `Bearer ${localStorage.token}`
 //     },
-//     body: JSON.stringify(newuser)
+//     body: JSON.stringify(newfav)
 //   }
   
 //   fetch('http://localhost:3000/api/v1/favorites', reqPackage)
@@ -141,16 +144,22 @@ class App extends React.Component {
       },
       body: JSON.stringify(newuser)
     }
+
     
     fetch('http://localhost:3000/api/v1/users', reqPackage)
     .then(res => res.json())
     .then(user => this.setState({
       usersArray: [...this.state.usersArray, user],
-      currentUser: user
+      currentUser: user,
+      currentPage: <Redirect to='/' />
       // console.log(newuser, 'made new user')
     }))
-    // this.makeFavorite()
-    this.getCocktails()
+    // this.makeFavorite(newuser)
+    // this.setUser(newuser.name)
+    // this.getCocktails()
+    // this.getUsers()
+
+    this.handleLogout()
   }
 
   deleteProfile=(profile)=>{
@@ -176,7 +185,7 @@ class App extends React.Component {
       },
       body: JSON.stringify(cocktail)
     }
-    fetch('http://localhost:3000/api/v1/cocktails')
+    fetch('http://localhost:3000/api/v1/cocktails', reqPackage)
     .then(res => res.json())
     .then(data => this.setState({
       cocktailArray: [...this.state.cocktailArray, data]
@@ -232,7 +241,7 @@ class App extends React.Component {
     console.log('im in the dislike', this.state)
 
     // let a = this.state.currentUser.favorite.cocktail_favorite_joiners.filter(joiner => joiner.cocktail_id === cocktail.id)[0]
-    fetch(`http://localhost:3000/api/v1/cocktail_favorite_joiners/${b.id}`, {
+    fetch(`http://localhost:3000/api/v1/cocktail_favorite_joiners/${b[0].id}`, {
       method: "DELETE",
     });
     console.log('removed')
